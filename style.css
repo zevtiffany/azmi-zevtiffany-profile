@@ -1,49 +1,45 @@
 /* =============================================
-   GOLF LE FLEUR × BAPE × MURAKAMI
-   Color System — Cream base, vibrant accents
+   RICK OWENS × DONDA × MARGIELA
+   Color System — Dark Brutalism, Avant-Goth
    ============================================= */
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Syncopate:wght@400;700&display=swap');
 
 :root {
-    /* Base — warm cream (Murakami canvas) */
-    --bg: #f7f4ee;
-    --bg-2: #eeeae0;
-    --bg-3: #e5e0d5;
-    --ink: #1a1714;
-    --ink-2: #2e2a26;
-    --ink-3: #4a4540;
-    --muted: #8a8278;
+    /* Base — Dark Void */
+    --bg: #030303;
+    --bg-2: #0a0a0a;
+    --bg-3: #111111;
+    --ink: #f4f4f4;
+    --ink-2: #cccccc;
+    --ink-3: #7a7a7a;
+    --muted: #444444;
 
-    /* Accent palette — Golf le Fleur × BAPE × Murakami */
-    --rose: #f2607a;
-    /* Golf le Fleur rose */
-    --rose-light: #ffd6de;
-    --yellow: #f5d800;
-    /* BAPE yellow / Tyler */
-    --yellow-light: #fffbcc;
-    --green: #3ecf6e;
-    /* Golf le Fleur green */
-    --green-light: #c8f5d8;
-    --blue: #4bc8f5;
-    /* Sky blue */
-    --blue-light: #d0f2ff;
-    --coral: #ff7f50;
-    /* warm pop */
-    --purple: #b56bff;
-    /* Murakami purple */
+    /* Accent palette — Stark Monochrome & Margiela White */
+    --rose: #ffffff;
+    /* Margiela stitch white */
+    --rose-light: #111111;
+    --yellow: #ffffff;
+    --yellow-light: #0d0d0d;
+    --green: #ffffff;
+    --green-light: #141414;
+    --blue: #ffffff;
+    --blue-light: #0d0d0d;
+    --coral: #ffffff;
+    --purple: #ffffff;
 
     /* Typography */
     --display: 'Bebas Neue', sans-serif;
-    --serif: 'DM Serif Display', serif;
-    --type: 'Special Elite', cursive;
-    --mono: 'Courier Prime', monospace;
+    --serif: 'Syncopate', sans-serif;
+    --type: 'Space Mono', monospace;
+    --mono: 'Space Mono', monospace;
+    --hero-font: 'Syne', sans-serif;
 
     /* UI */
     --radius: 0px;
-    --border: 1px solid rgba(26, 23, 20, 0.12);
-    --border-color: rgba(26, 23, 20, 0.12);
-    --shadow-card: 4px 4px 0 var(--ink);
-    --shadow-sm: 2px 2px 0 var(--ink);
+    --border: 1px solid #222222;
+    --border-color: #222222;
+    --shadow-card: 4px 4px 0 #1a1a1a;
+    --shadow-sm: 2px 2px 0 #1a1a1a;
     --transition: all 0.2s ease;
 }
 
@@ -251,15 +247,15 @@ body::before {
     pointer-events: none;
 }
 
-/* Bottom rose stripe */
+/* Bottom Margiela stitch stripe */
 .hero::after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: linear-gradient(to right, var(--rose), var(--yellow), var(--green), var(--blue), var(--purple));
+    height: 2px;
+    background: repeating-linear-gradient(to right, var(--rose) 0, var(--rose) 12px, transparent 12px, transparent 24px);
     pointer-events: none;
 }
 
@@ -295,28 +291,28 @@ body::before {
 }
 
 .hero-name {
-    font-family: var(--display);
-    font-size: clamp(64px, 10vw, 140px);
-    letter-spacing: 4px;
-    color: var(--ink);
-    line-height: 0.88;
+    font-family: var(--hero-font);
+    font-weight: 800;
+    font-size: clamp(40px, 12vw, 110px);
+    letter-spacing: -1px;
+    color: var(--rose);
+    line-height: 0.95;
     margin-bottom: 24px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
 .hero-name .line-2 {
-    color: transparent;
-    -webkit-text-stroke: 2px var(--ink);
     display: block;
-    font-size: clamp(40px, 6.5vw, 88px);
-    letter-spacing: 12px;
+    font-size: clamp(32px, 10vw, 90px);
+    color: var(--ink-3);
+    letter-spacing: 2px;
 }
 
 .hero-name .line-3 {
     display: block;
-    font-size: clamp(28px, 4.5vw, 60px);
-    letter-spacing: 18px;
-    color: var(--rose);
-    -webkit-text-stroke: 0;
+    font-size: clamp(28px, 9vw, 70px);
+    color: var(--ink);
+    letter-spacing: 4px;
 }
 
 .hero-class {
@@ -539,7 +535,7 @@ body::before {
 
 .section-title {
     font-family: var(--display);
-    font-size: clamp(46px, 7vw, 88px);
+    font-size: clamp(36px, 8vw, 88px);
     letter-spacing: 5px;
     color: var(--ink);
     line-height: 0.95;
@@ -855,7 +851,7 @@ body::before {
 
 .business-name {
     font-family: var(--display);
-    font-size: clamp(40px, 6vw, 72px);
+    font-size: clamp(32px, 8vw, 72px);
     letter-spacing: 8px;
     color: var(--ink);
     line-height: 0.9;
@@ -1112,10 +1108,21 @@ body::before {
     text-transform: uppercase;
     margin-bottom: 22px;
     padding-bottom: 10px;
-    border-bottom: 2px solid var(--ink);
+    border-bottom: 2px solid var(--border-color);
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+.strong-highlight {
+    background: var(--rose);
+    color: var(--bg);
+    padding: 6px 12px;
+    display: inline-flex;
+    font-weight: bold;
+    border: none;
+    box-shadow: 4px 4px 0 var(--ink-3);
+    margin-bottom: 30px;
 }
 
 .skill-group-label::before {
@@ -1440,15 +1447,26 @@ footer strong {
 @media (max-width: 768px) {
     .hero {
         padding: 40px 20px;
+        min-height: auto;
     }
 
     .hero-inner {
         grid-template-columns: 1fr;
-        gap: 32px;
+        gap: 40px;
+        text-align: center;
+    }
+
+    .hero-class {
+        justify-content: center;
+    }
+
+    .hero-cta {
+        justify-content: center;
     }
 
     .hero-photo-wrap {
         max-width: 240px;
+        margin: 0 auto;
     }
 
     .page-wrapper {
