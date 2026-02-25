@@ -1465,8 +1465,20 @@ footer strong {
     }
 
     .hero-photo-wrap {
-        max-width: 240px;
+        max-width: 180px;
         margin: 0 auto;
+    }
+
+    .hero-name {
+        font-size: clamp(32px, 10vw, 80px);
+    }
+
+    .hero-name .line-2 {
+        font-size: clamp(24px, 8vw, 60px);
+    }
+
+    .hero-name .line-3 {
+        font-size: clamp(20px, 7vw, 50px);
     }
 
     .page-wrapper {
@@ -1785,6 +1797,26 @@ footer strong {
 
 .social-item:hover .social-arrow {
     opacity: 1;
+}
+
+.social-group-links {
+    display: flex;
+    gap: 12px;
+}
+
+.social-group-links a {
+    font-family: var(--type);
+    font-size: 10px;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: 1px;
+    border-bottom: 1px solid transparent;
+    transition: var(--transition);
+}
+
+.social-group-links a:hover {
+    color: var(--rose);
+    border-bottom-color: var(--rose);
 }
 
 /* =============================================
