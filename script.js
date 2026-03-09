@@ -50,21 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-    // ─── SKILL BARS ──────────────────────────────
-    const skillObs = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                e.target.style.width = e.target.getAttribute('data-width') + '%';
-                skillObs.unobserve(e.target);
-            }
-        });
-    }, { threshold: 0.3 });
-
-    document.querySelectorAll('.skill-fill').forEach(bar => {
-        bar.style.width = '0';
-        skillObs.observe(bar);
-    });
-
     // ─── ABOUT: Show More ─────────────────────────
     const aboutText = document.getElementById('about-text');
     const showMoreBtn = document.getElementById('show-more-btn');
@@ -78,58 +63,93 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ─── CURSOR: vintage crosshair dot ───────────
-    const cursor = document.createElement('div');
-    cursor.style.cssText = `
-        position:fixed; width:10px; height:10px;
-        border:1px solid rgba(168,63,28,0.7);
-        border-radius:50%;
-        pointer-events:none; z-index:99997;
-        transform:translate(-50%,-50%);
-        transition:width 0.2s, height 0.2s, opacity 0.2s;
-        mix-blend-mode:difference;
-    `;
-    document.body.appendChild(cursor);
+    if (window.matchMedia("(pointer: fine)").matches) {
+        const cursor = document.createElement('div');
+        cursor.style.cssText = `
+            position:fixed; width:10px; height:10px;
+            border:1px solid rgba(17,17,17,0.8);
+            border-radius:50%;
+            pointer-events:none; z-index:99997;
+            transform:translate(-50%,-50%);
+            transition:width 0.2s, height 0.2s, opacity 0.2s;
+            mix-blend-mode:difference;
+        `;
+        document.body.appendChild(cursor);
 
-    const cursorRing = document.createElement('div');
-    cursorRing.style.cssText = `
-        position:fixed; width:36px; height:36px;
-        border:1px solid rgba(168,63,28,0.25);
-        border-radius:50%;
-        pointer-events:none; z-index:99996;
-        transform:translate(-50%,-50%);
-        transition:all 0.12s ease;
-    `;
-    document.body.appendChild(cursorRing);
+        const cursorRing = document.createElement('div');
+        cursorRing.style.cssText = `
+            position:fixed; width:36px; height:36px;
+            border:1px solid rgba(17,17,17,0.3);
+            border-radius:50%;
+            pointer-events:none; z-index:99996;
+            transform:translate(-50%,-50%);
+            transition:all 0.12s ease;
+        `;
+        document.body.appendChild(cursorRing);
 
-    let cx = window.innerWidth / 2, cy = window.innerHeight / 2;
-    let rx = cx, ry = cy;
+        let cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+        let rx = cx, ry = cy;
+        let isMoving = false;
 
-    window.addEventListener('mousemove', e => { cx = e.clientX; cy = e.clientY; });
+        window.addEventListener('mousemove', e => {
+            cx = e.clientX;
+            cy = e.clientY;
+            if (!isMoving) {
+                isMoving = true;
+                requestAnimationFrame(animCursor);
+            }
+        });
 
-    function animCursor() {
-        cursor.style.left = cx + 'px';
-        cursor.style.top = cy + 'px';
-        rx += (cx - rx) * 0.12;
-        ry += (cy - ry) * 0.12;
-        cursorRing.style.left = rx + 'px';
-        cursorRing.style.top = ry + 'px';
-        requestAnimationFrame(animCursor);
+        function animCursor() {
+            cursor.style.left = cx + 'px';
+            cursor.style.top = cy + 'px';
+            rx += (cx - rx) * 0.12;
+            ry += (cy - ry) * 0.12;
+            cursorRing.style.left = rx + 'px';
+            cursorRing.style.top = ry + 'px';
+
+            if (Math.abs(cx - rx) < 0.1 && Math.abs(cy - ry) < 0.1) {
+                isMoving = false;
+            } else {
+                requestAnimationFrame(animCursor);
+            }
+        }
+        // initial call
+        animCursor();
+
+        document.querySelectorAll('a, button, .project-card').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorRing.style.width = '52px';
+                cursorRing.style.height = '52px';
+                cursorRing.style.borderColor = 'rgba(17,17,17,0.8)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorRing.style.width = '36px';
+                cursorRing.style.height = '36px';
+                cursorRing.style.borderColor = 'rgba(17,17,17,0.3)';
+            });
+        });
     }
-    animCursor();
 
-    // Expand ring on hover over links/buttons
-    document.querySelectorAll('a, button').forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursorRing.style.width = '52px';
-            cursorRing.style.height = '52px';
-            cursorRing.style.borderColor = 'rgba(168,63,28,0.6)';
-        });
-        el.addEventListener('mouseleave', () => {
-            cursorRing.style.width = '36px';
-            cursorRing.style.height = '36px';
-            cursorRing.style.borderColor = 'rgba(168,63,28,0.25)';
-        });
-    });
+    // ─── TOAST NOTIFICATION ──────────────────────
+    window.showToast = function (msg) {
+        let toast = document.getElementById('toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'toast';
+            toast.className = 'custom-toast';
+            document.body.appendChild(toast);
+        }
+        toast.textContent = msg;
+        toast.classList.add('show');
+
+        // Clear previous timeout if exists
+        if (window.toastTimeout) clearTimeout(window.toastTimeout);
+
+        window.toastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    };
 
     // ─── FOOTER YEAR ─────────────────────────────
     const yearEl = document.getElementById('year');
