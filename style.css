@@ -5,33 +5,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Syncopate:wght@400;700&display=swap');
 
 :root {
-    /* Base — Margiela Blank Canvas / Rick Owens Plaster */
-    --bg: #f5f2eb;
-    /* Aged Plaster / Cream */
-    --bg-2: #eae5d9;
-    /* Slightly darker cream */
-    --bg-3: #dfd9cb;
-    /* Even darker cream */
-    --ink: #111111;
+    /* Base — Avant-Garde Dark Brutalism / Rick Owens */
+    --bg: #070707;
+    /* Deep Black */
+    --bg-2: #121212;
     /* Charcoal Black */
-    --ink-2: #333333;
-    /* Dark Gray */
-    --ink-3: #555555;
+    --bg-3: #1a1a1a;
+    /* Very Dark Gray */
+    --ink: #f0f0f0;
+    /* Off-White / Plaster */
+    --ink-2: #cccccc;
+    /* Ash Gray */
+    --ink-3: #999999;
     /* Medium Gray */
-    --muted: #888888;
-    /* Muted Gray */
+    --muted: #737373;
+    /* Readable Dark Gray */
 
-    /* Accent palette — Takashi Murakami Pop Art */
-    --rose: #ff2a6d;
-    --rose-light: #ff6b96;
-    --yellow: #ffde00;
-    --yellow-light: #ffe840;
-    --green: #00c74f;
-    --green-light: #3bed84;
-    --blue: #00a8ff;
-    --blue-light: #4dc2ff;
-    --coral: #ff5e00;
-    --purple: #bf55ec;
+    /* Accent palette — Monochrome Mapping */
+    --rose: #ffffff;
+    --rose-light: #141414;
+    --yellow: #d9d9d9;
+    --yellow-light: #181818;
+    --green: #e6e6e6;
+    --green-light: #1c1c1c;
+    --blue: #b3b3b3;
+    --blue-light: #111111;
+    --coral: #cccccc;
+    --purple: #999999;
 
     /* Typography */
     --display: 'Bebas Neue', sans-serif;
@@ -42,11 +42,11 @@
 
     /* UI */
     --radius: 0px;
-    --border: 1px solid #111111;
-    --border-color: #111111;
-    --shadow-card: 4px 4px 0 #111111;
-    --shadow-sm: 2px 2px 0 #111111;
-    --transition: all 0.2s ease;
+    --border: 1px solid #f0f0f0;
+    --border-color: #333333;
+    --shadow-card: 6px 6px 0 #f0f0f0;
+    --shadow-sm: 4px 4px 0 #333333;
+    --transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 /* =============================================
@@ -72,16 +72,16 @@ body {
     overflow-x: hidden;
 }
 
-/* Grain overlay */
+/* Grain overlay - CSS version for performance */
 body::before {
     content: '';
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 9999;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.015'/%3E%3C/svg%3E");
-    opacity: 0.5;
-    /* Reduced numOctaves and opacity for better GPU performance */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    mix-blend-mode: screen;
 }
 
 /* =============================================

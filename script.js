@@ -19,20 +19,21 @@ document.addEventListener('DOMContentLoaded', () => {
         );
     }
 
-    // ─── ACTIVE NAV on scroll ────────────────────
+    // ─── ACTIVE NAV on scroll (IntersectionObserver) ─────
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.navbar-nav a[href^="#"]');
 
-    window.addEventListener('scroll', () => {
-        const scrollY = window.scrollY + 100;
-        sections.forEach(sec => {
-            if (scrollY >= sec.offsetTop && scrollY < sec.offsetTop + sec.offsetHeight) {
+    const navObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
                 navLinks.forEach(l => l.classList.remove('active'));
-                const link = [...navLinks].find(l => l.getAttribute('href') === `#${sec.id}`);
+                const link = Array.from(navLinks).find(l => l.getAttribute('href') === `#${entry.target.id}`);
                 if (link) link.classList.add('active');
             }
         });
-    }, { passive: true });
+    }, { rootMargin: '-40% 0px -40% 0px', threshold: 0 });
+
+    sections.forEach(sec => navObserver.observe(sec));
 
     // ─── SCROLL TO TOP ───────────────────────────
     const scrollTopBtn = document.getElementById('scroll-top');
@@ -66,9 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.matchMedia("(pointer: fine)").matches) {
         const cursor = document.createElement('div');
         cursor.style.cssText = `
-            position:fixed; width:10px; height:10px;
-            border:1px solid rgba(17,17,17,0.8);
-            border-radius:50%;
+            position:fixed; width:8px; height:8px;
+            background: rgba(240,240,240,1);
+            border-radius:0;
             pointer-events:none; z-index:99997;
             transform:translate(-50%,-50%);
             transition:width 0.2s, height 0.2s, opacity 0.2s;
@@ -79,8 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const cursorRing = document.createElement('div');
         cursorRing.style.cssText = `
             position:fixed; width:36px; height:36px;
-            border:1px solid rgba(17,17,17,0.3);
-            border-radius:50%;
+            border:1.5px solid rgba(240,240,240,0.4);
+            border-radius:0;
             pointer-events:none; z-index:99996;
             transform:translate(-50%,-50%);
             transition:all 0.12s ease;
@@ -119,20 +120,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.querySelectorAll('a, button, .project-card').forEach(el => {
             el.addEventListener('mouseenter', () => {
-                cursorRing.style.width = '52px';
-                cursorRing.style.height = '52px';
-                cursorRing.style.borderColor = 'rgba(17,17,17,0.8)';
+                cursorRing.style.width = '48px';
+                cursorRing.style.height = '48px';
+                cursorRing.style.borderColor = 'rgba(240,240,240,1)';
+                cursorRing.style.transform = 'translate(-50%,-50%) rotate(45deg)';
             });
             el.addEventListener('mouseleave', () => {
                 cursorRing.style.width = '36px';
                 cursorRing.style.height = '36px';
-                cursorRing.style.borderColor = 'rgba(17,17,17,0.3)';
+                cursorRing.style.borderColor = 'rgba(240,240,240,0.4)';
+                cursorRing.style.transform = 'translate(-50%,-50%) rotate(0deg)';
             });
         });
     }
 
-    // ─── TOAST NOTIFICATION ──────────────────────
-    window.showToast = function (msg) {
+    // ─── TOAST NOTIFICATION & A11Y BINDINGS ──────
+    function showToast(msg) {
         let toast = document.getElementById('toast');
         if (!toast) {
             toast = document.createElement('div');
@@ -143,13 +146,25 @@ document.addEventListener('DOMContentLoaded', () => {
         toast.textContent = msg;
         toast.classList.add('show');
 
-        // Clear previous timeout if exists
         if (window.toastTimeout) clearTimeout(window.toastTimeout);
 
         window.toastTimeout = setTimeout(() => {
             toast.classList.remove('show');
         }, 3000);
-    };
+    }
+    
+    // Bind toast to project cards
+    document.querySelectorAll('[data-toast]').forEach(el => {
+        el.addEventListener('click', () => {
+            showToast(el.getAttribute('data-toast'));
+        });
+        el.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                showToast(el.getAttribute('data-toast'));
+            }
+        });
+    });
 
     // ─── FOOTER YEAR ─────────────────────────────
     const yearEl = document.getElementById('year');
